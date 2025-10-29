@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome New User!</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f0f4f8;
+            height: 100vh;
+            display: grid;
+            grid-template-columns: 250px 1fr 180px;
+        }
+
+        /* --- Global Styles for all sections --- */
+        .panel {
+            padding: 15px;
+            overflow-y: auto;
+        }
+        
+        /* --- Center Content Area --- */
+        #content-center {
+            background-color: #ffffff;
+            border-left: 1px solid #ddd;
+            border-right: 1px solid #ddd;
+            padding: 30px;
+            overflow-y: auto; 
+        }
+
+        /* --- Left Scrollable Navigation --- */
+        #navigation-left {
+            background-color: #e6eef5;
+            padding: 20px 15px;
+            overflow-y: auto; 
+        }
+        #navigation-left h3 {
+            color: #0056b3;
+            margin-top: 0;
+        }
+        #navigation-left ul {
+            list-style: none;
+            padding: 0;
+        }
+        #navigation-left li a {
+            display: block;
+            padding: 8px 0;
+            margin-bottom: 5px;
+            text-decoration: none;
+            color: #333;
+            border-bottom: 1px dashed #c0d3e6;
+        }
+        #navigation-left li a:hover {
+            color: #007bff;
+        }
+        
+        /* --- Right Fixed Advertisement Area --- */
+        #advertisement-right {
+            background-color: #fff3cd; 
+            position: sticky; 
+            top: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 20px 10px;
+            text-align: center;
+            box-shadow: -2px 0 5px rgba(0, 0, 0, 0.05);
+            overflow: hidden; 
+        }
+        #advertisement-right h4 {
+            color: #856404;
+            margin-bottom: 15px;
+        }
+        .ad-box {
+            width: 100%;
+            height: 200px;
+            background-color: #f5c6cb;
+            border: 2px dashed #dc3545;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            font-size: 0.9em;
+        }
+
+        /* --- Google Search Styling --- */
+        #google-search {
+            margin-bottom: 25px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        #google-search form {
+            display: flex;
+        }
+        #google-search input[type="text"] {
+            flex-grow: 1;
+            padding: 10px;
+            border: 1px solid #ced4da;
+            border-radius: 4px 0 0 4px;
+            outline: none;
+        }
+        #google-search button {
+            padding: 10px 15px;
+            background-color: #4285f4;
+            color: white;
+            border: none;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+        }
+        #google-search button:hover {
+            background-color: #357ae8;
+        }
+
+    </style>
+</head>
+<body>
+
+<div id="navigation-left" class="panel">
+    <h3>Quick Links</h3>
+    <ul>
+        <li><a href="#">Account Setup</a></li>
+        <li><a href="#">Getting Started Guide</a></li>
+        <li><a href="#">Community Forum</a></li>
+        <li><a href="#">Support & Help</a></li>
+        <li><a href="#">Explore Features</a></li>
+        <li><a href="#">Latest News</a></li>
+        <li><a href="#">Settings</a></li>
+        <li><a href="#">Tutorial 1</a></li>
+        <li><a href="#">Tutorial 2</a></li>
+        <li><a href="#">Tutorial 3</a></li>
+        <li><a href="#">Tutorial 4</a></li>
+        <li><a href="#">Tutorial 5</a></li>
+        <li><a href="#">Tutorial 6</a></li>
+        <li><a href="#">Tutorial 7</a></li>
+        <li><a href="#">Tutorial 8</a></li>
+    </ul>
+    
+</div>
+
+<div id="content-center" class="panel">
+    
+    <div id="google-search">
+        <form action="https://www.google.com/search" method="get" target="_blank">
+            <input type="text" name="q" placeholder="Need to search something? Go to Google..." required>
+            <button type="submit">🔍</button>
+        </form>
+    </div>
+    
+    <h1>🎉 A Warm Welcome to You!</h1>
+    
+    <p>We're absolutely **thrilled** to have you join our community. Your journey starts right here!</p>
+    
+    <hr>
+    
+    <h2>Ready to Get Started?</h2>
+    
+    <p>We’ve organized this page to help you find what you need quickly:</p>
+    
+    <ul>
+        <li>**Left Sidebar:** Find **Quick Links** to your account setup, guides, and support pages. This list is scrollable if you have a lot of items!</li>
+        <li>**Right Sidebar:** This area is reserved for important notices or advertisements (which **stay fixed** while you scroll).</li>
+        <li>**Center Content (Here):** Your main hub for news, updates, and featured content.</li>
+    </ul>
+
+    <h3>What to Do Next:</h3>
+    
+    <ol>
+        <li>Check out the **Getting Started Guide** in the left sidebar.</li>
+        <li>Complete your profile in the **Account Setup**.</li>
+        <li>Start a conversation in the **Community Forum**.</li>
+    </ol>
+    
+    <p style="margin-top: 30px; font-style: italic; color: #555;">Thank you for signing up. We hope you enjoy your time here!</p>
+
+    <br><br><br><br><br><br><br><br><br><br>
+    <p>Scroll down further to confirm the center column is independently scrollable!</p>
+    <p>...More content here...</p>
+    <p>...Even more content to push the scrollbar down...</p>
+    <p>End of Center Content.</p>
+    
+</div>
+
+<div id="advertisement-right" class="panel">
+    <h4>📣 Important Notice</h4>
+    <div class="ad-box">
+        <p>This is your **fixed** ad/notice area. It always stays in view!</p>
+    </div>
+    
+    <h4>Latest Update:</h4>
+    <p style="font-size: 0.9em; color: #333;">New features released this week. Click a link in the sidebar to learn more.</p>
+
+    <div class="ad-box" style="height: 120px; background-color: #d1ecf1; border-color: #007bff;">
+        <p>Small Support Banner</p>
+    </div>
+
+</div>
+
+</body>
+</html>
