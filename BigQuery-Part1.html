@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BigQuery & Data Management Tutorial - Part 1</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #4285f4, #34a853);
+            color: white;
+            padding: 30px 0;
+            text-align: center;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .content {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 25px;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        h2 {
+            color: #4285f4;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+        
+        h3 {
+            color: #34a853;
+            margin: 20px 0 10px;
+        }
+        
+        p {
+            margin-bottom: 15px;
+        }
+        
+        ul, ol {
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+        
+        li {
+            margin-bottom: 8px;
+        }
+        
+        .definition {
+            background-color: #f8f9fa;
+            border-left: 4px solid #4285f4;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 5px 5px 0;
+        }
+        
+        .example {
+            background-color: #e8f4fd;
+            border-left: 4px solid #34a853;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 5px 5px 0;
+            font-family: monospace;
+        }
+        
+        .important {
+            background-color: #fff8e1;
+            border-left: 4px solid #fbbc05;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 5px 5px 0;
+        }
+        
+        .tip {
+            background-color: #e6f4ea;
+            border-left: 4px solid #34a853;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 5px 5px 0;
+        }
+        
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+        
+        .btn {
+            background: #4285f4;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .btn:hover {
+            background: #3367d6;
+        }
+        
+        .btn-next {
+            background: #34a853;
+        }
+        
+        .btn-next:hover {
+            background: #2e8b47;
+        }
+        
+        .topic-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .topic-item {
+            background: #f0f7ff;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: 500;
+            border: 1px solid #d0e3ff;
+        }
+        
+        .topic-item.current {
+            background: #4285f4;
+            color: white;
+        }
+        
+        @media (max-width: 768px) {
+            .topic-list {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>BigQuery & Data Management Tutorial</h1>
+            <p class="subtitle">Part 1: Foundational Concepts & Data Preparation</p>
+        </header>
+        
+        <div class="content">
+            <div class="card">
+                <h2>Introduction</h2>
+                <p>Welcome to this comprehensive tutorial on data management and Google BigQuery. This guide is designed to take you from fundamental concepts to advanced techniques in a structured, easy-to-follow manner.</p>
+                
+                <p>In Part 1, we'll cover the foundational concepts including data storage architectures, data preparation, and an introduction to BigQuery.</p>
+                
+                <h3>Topics Covered in Part 1:</h3>
+                <div class="topic-list">
+                    <div class="topic-item current">Operational Data Store</div>
+                    <div class="topic-item current">Data Mart</div>
+                    <div class="topic-item current">Data Cleansing</div>
+                    <div class="topic-item current">BigQuery Introduction</div>
+                    <div class="topic-item">Creating Datasets</div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h2>Operational Data Store (ODS)</h2>
+                
+                <div class="definition">
+                    <strong>Definition:</strong> An Operational Data Store (ODS) is a database designed to integrate data from multiple sources for additional operations on the data. It is a central database that provides a current, integrated view of data across the organization.
+                </div>
+                
+                <h3>Key Characteristics of ODS:</h3>
+                <ul>
+                    <li><strong>Subject-Oriented:</strong> Organized around key business subjects</li>
+                    <li><strong>Integrated:</strong> Combines data from various operational systems</li>
+                    <li><strong>Current-Valued:</strong> Contains near real-time or current data</li>
+                    <li><strong>Volatile:</strong> Data is constantly updated as operational systems change</li>
+                    <li><strong>Detailed:</strong> Contains detailed, not summarized, data</li>
+                </ul>
+                
+                <h3>Purpose of ODS:</h3>
+                <ol>
+                    <li>Provide a unified view of operational data</li>
+                    <li>Support operational reporting and decision-making</li>
+                    <li>Serve as a staging area for data warehouses</li>
+                    <li>Enable data consistency across systems</li>
+                    <li>Support real-time or near real-time business processes</li>
+                </ol>
+                
+                <div class="example">
+                    <strong>Example:</strong> A retail company might have an ODS that integrates data from point-of-sale systems, inventory management, and customer relationship management (CRM) to provide a complete view of customer transactions.
+                </div>
+                
+                <div class="important">
+                    <strong>Important:</strong> ODS is different from a data warehouse. While a data warehouse is optimized for analysis and historical data, an ODS is optimized for operational reporting and current data.
+                </div>
+            </div>
+            
+            <div class="card">
+                <h2>Data Mart</h2>
+                
+                <div class="definition">
+                    <strong>Definition:</strong> A Data Mart is a subset of a data warehouse that is focused on a specific business line or department. It contains a curated selection of data tailored to the needs of a particular group of users.
+                </div>
+                
+                <h3>Types of Data Marts:</h3>
+                <ul>
+                    <li><strong>Dependent Data Mart:</strong> Built from an existing data warehouse</li>
+                    <li><strong>Independent Data Mart:</strong> Built directly from source systems without a data warehouse</li>
+                    <li><strong>Hybrid Data Mart:</strong> Combines data from a data warehouse and other sources</li>
+                </ul>
+                
+                <h3>Benefits of Data Marts:</h3>
+                <ol>
+                    <li>Faster implementation compared to full data warehouses</li>
+                    <li>Tailored to specific departmental needs</li>
+                    <li>Improved performance for specific queries</li>
+                    <li>Easier for business users to navigate</li>
+                    <li>Lower cost than enterprise data warehouses</li>
+                </ol>
+                
+                <div class="example">
+                    <strong>Example:</strong> A sales data mart would contain only sales-related data (transactions, customers, products) specifically designed for the sales department's reporting and analysis needs.
+                </div>
+                
+                <h3>Data Mart vs Data Warehouse:</h3>
+                <ul>
+                    <li><strong>Scope:</strong> Data Mart (Departmental) vs Data Warehouse (Enterprise-wide)</li>
+                    <li><strong>Data:</strong> Data Mart (Subject-specific) vs Data Warehouse (Comprehensive)</li>
+                    <li><strong>Size:</strong> Data Mart (Smaller, GBs) vs Data Warehouse (Larger, TBs/PBs)</li>
+                    <li><strong>Implementation Time:</strong> Data Mart (Weeks/Months) vs Data Warehouse (Months/Years)</li>
+                </ul>
+                
+                <div class="tip">
+                    <strong>Tip:</strong> When designing a data mart, focus on the specific needs of the target users. Include only the data they need in a structure that matches their business processes.
+                </div>
+            </div>
+            
+            <div class="card">
+                <h2>Data Cleansing</h2>
+                
+                <div class="definition">
+                    <strong>Definition:</strong> Data Cleansing (or Data Cleaning) is the process of detecting and correcting (or removing) corrupt, inaccurate, or irrelevant parts of data. It improves data quality and reliability.
+                </div>
+                
+                <h3>Common Data Quality Issues:</h3>
+                <ul>
+                    <li><strong>Missing Values:</strong> Empty or null fields</li>
+                    <li><strong>Inconsistent Formatting:</strong> Different formats for the same data (e.g., dates, phone numbers)</li>
+                    <li><strong>Duplicate Records:</strong> Multiple entries for the same entity</li>
+                    <li><strong>Spelling Errors:</strong> Typos and misspellings</li>
+                    <li><strong>Outliers:</strong> Values that are significantly different from others</li>
+                    <li><strong>Incorrect Data Types:</strong> Numbers stored as text, dates stored as strings</li>
+                </ul>
+                
+                <h3>Data Cleansing Process:</h3>
+                <ol>
+                    <li><strong>Audit:</strong> Analyze data to identify quality issues</li>
+                    <li><strong>Plan:</strong> Define rules and methods for cleansing</li>
+                    <li><strong>Execute:</strong> Apply cleansing rules to the data</li>
+                    <li><strong>Verify:</strong> Check if cleansing improved data quality</li>
+                    <li><strong>Document:</strong> Record the cleansing process for future reference</li>
+                </ol>
+                
+                <h3>Data Cleansing Techniques:</h3>
+                <ul>
+                    <li><strong>Parsing:</strong> Breaking data into components</li>
+                    <li><strong>Standardization:</strong> Converting data to consistent formats</li>
+                    <li><strong>Matching:</strong> Identifying related or duplicate records</li>
+                    <li><strong>Enrichment:</strong> Adding missing information from external sources</li>
+                    <li><strong>Validation:</strong> Checking data against predefined rules</li>
+                </ul>
+                
+                <div class="example">
+                    <strong>Example - Before Cleansing:</strong><br>
+                    Customer records: "John Smith", "john smith", "J. Smith", "Smith, John"<br><br>
+                    
+                    <strong>After Cleansing:</strong><br>
+                    All standardized to: "Smith, John"
+                </div>
+                
+                <div class="important">
+                    <strong>Important:</strong> Data cleansing is an ongoing process, not a one-time activity. As new data enters the system, it should go through validation and cleansing routines.
+                </div>
+            </div>
+            
+            <div class="card">
+                <h2>BigQuery Introduction</h2>
+                
+                <div class="definition">
+                    <strong>Definition:</strong> Google BigQuery is a fully-managed, serverless data warehouse that enables scalable analysis over petabytes of data. It is a Platform-as-a-Service (PaaS) that supports queries using ANSI SQL.
+                </div>
+                
+                <h3>Key Features of BigQuery:</h3>
+                <ul>
+                    <li><strong>Serverless:</strong> No infrastructure to manage</li>
+                    <li><strong>Highly Scalable:</strong> Can handle petabytes of data</li>
+                    <li><strong>Fast:</strong> Uses Google's infrastructure for rapid query execution</li>
+                    <li><strong>Cost-Effective:</strong> Pay only for the data processed and stored</li>
+                    <li><strong>Secure:</strong> Built-in security and compliance features</li>
+                    <li><strong>Integrated:</strong> Works with other Google Cloud services</li>
+                </ul>
+                
+                <h3>BigQuery Architecture:</h3>
+                <ol>
+                    <li><strong>Storage Layer:</strong> Uses Google's Colossus distributed file system</li>
+                    <li><strong>Compute Layer:</strong> Uses Dremel query engine for fast execution</li>
+                    <li><strong>Borg:</strong> Google's cluster management system allocates resources</li>
+                    <li><strong>Jupiter:</strong> Google's network fabric connects all components</li>
+                </ol>
+                
+                <h3>BigQuery Pricing Model:</h3>
+                <ul>
+                    <li><strong>On-Demand:</strong> Pay per query based on bytes processed</li>
+                    <li><strong>Flat-Rate:</strong> Monthly fee for predictable workloads</li>
+                    <li><strong>Storage Pricing:</strong> Cost for active and long-term storage</li>
+                    <li><strong>Streaming Inserts:</strong> Additional cost for real-time data ingestion</li>
+                </ul>
+                
+                <div class="example">
+                    <strong>Example Use Cases:</strong>
+                    <ul>
+                        <li>Analyzing years of sales data to identify trends</li>
+                        <li>Processing web analytics data for marketing insights</li>
+                        <li>Running machine learning models on large datasets</li>
+                        <li>Creating real-time dashboards from streaming data</li>
+                    </ul>
+                </div>
+                
+                <div class="tip">
+                    <strong>Tip:</strong> BigQuery automatically scales to handle your data volume and query complexity. You don't need to worry about provisioning resources or managing clusters.
+                </div>
+            </div>
+            
+            <div class="card">
+                <h2>Creating Datasets in BigQuery</h2>
+                
+                <div class="definition">
+                    <strong>Definition:</strong> In BigQuery, a dataset is a top-level container that is used to organize and control access to your tables and views. A dataset is contained within a specific Google Cloud project.
+                </div>
+                
+                <h3>Dataset Components:</h3>
+                <ul>
+                    <li><strong>Tables:</strong> Contain the actual data</li>
+                    <li><strong>Views:</strong> Virtual tables defined by a SQL query</li>
+                    <li><strong>Models:</strong> Machine learning models created in BigQuery ML</li>
+                    <li><strong>Routines:</strong> User-defined functions (UDFs) and stored procedures</li>
+                </ul>
+                
+                <h3>Creating a Dataset via BigQuery UI:</h3>
+                <ol>
+                    <li>Open the BigQuery console in Google Cloud</li>
+                    <li>Select your project in the Explorer panel</li>
+                    <li>Click the three dots next to your project name</li>
+                    <li>Select "Create dataset"</li>
+                    <li>Provide a Dataset ID (name)</li>
+                    <li>Select a Data location (region)</li>
+                    <li>Set default table expiration (optional)</li>
+                    <li>Choose encryption options</li>
+                    <li>Click "Create dataset"</li>
+                </ol>
+                
+                <h3>Creating a Dataset via SQL:</h3>
+                <div class="example">
+                    CREATE SCHEMA IF NOT EXISTS `my-project.my_dataset`<br>
+                    OPTIONS(<br>
+                    &nbsp;&nbsp;location = "us",<br>
+                    &nbsp;&nbsp;default_table_expiration_days = 30<br>
+                    );
+                </div>
+                
+                <h3>Creating a Dataset via bq Command-Line Tool:</h3>
+                <div class="example">
+                    bq mk --dataset --location=US --default_table_expiration=3600 my-project:my_dataset
+                </div>
+                
+                <h3>Dataset Best Practices:</h3>
+                <ul>
+                    <li>Use descriptive names for datasets</li>
+                    <li>Group related tables in the same dataset</li>
+                    <li>Set appropriate table expiration policies</li>
+                    <li>Choose the location closest to your users</li>
+                    <li>Use consistent naming conventions across projects</li>
+                </ul>
+                
+                <div class="important">
+                    <strong>Important:</strong> The dataset location determines where the data is stored and cannot be changed after creation. Choose carefully based on compliance requirements and user locations.
+                </div>
+            </div>
+        </div>
+        
+        <div class="nav-buttons">
+            <a href="#" class="btn">Previous</a>
+            <a href="bigquery-tutorial-part2.html" class="btn btn-next">Next: Part 2 - Tables & Queries</a>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>AI Orientation, Prompting, Embeddings & Vector DB — Topics & Teaching Tools</title>
+<style>
+  :root {
+    --bg: #0f172a;
+    --card: #111827;
+    --ink: #e5e7eb;
+    --muted: #9ca3af;
+    --accent: #a78bfa;
+    --accent2: #06b6d4;
+    --table-border: #374151;
+  }
+  html, body {
+    margin: 0; padding: 0; background: var(--bg); color: var(--ink);
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+    line-height: 1.55;
+  }
+  .container {
+    max-width: 1100px; margin: 40px auto; padding: 0 20px;
+  }
+  h1, h2, h3 { line-height: 1.2; }
+  h1 { font-size: 2rem; margin-bottom: .25rem; }
+  .subtitle { color: var(--muted); margin-bottom: 1.5rem; }
+  .card {
+    background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+    border: 1px solid rgba(255,255,255,.08);
+    border-radius: 14px;
+    padding: 20px;
+    margin: 18px 0;
+    box-shadow: 0 10px 30px rgba(0,0,0,.25);
+  }
+  .pill { display:inline-block; padding:4px 10px; border-radius:999px;
+    background: rgba(167,139,250,.15); color:#ddd; border:1px solid rgba(167,139,250,.35); font-size:.85rem;
+  }
+  ul { margin: .5rem 0 0 1.25rem; }
+  li { margin: .2rem 0; }
+  table {
+    width: 100%; border-collapse: collapse; margin-top: 10px; font-size: .98rem;
+  }
+  th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--table-border); vertical-align: top; }
+  th { background: rgba(6,182,212,.12); border-top: 1px solid var(--table-border); }
+  tr:hover td { background: rgba(255,255,255,.02); }
+  .footer { color: var(--muted); font-size: .9rem; margin-top: 28px; }
+  a { color: var(--accent2); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  .cols { display:grid; grid-template-columns: repeat(auto-fit,minmax(260px,1fr)); gap:16px; }
+  .section-title { color: var(--accent); margin-bottom: .25rem; }
+</style>
+</head>
+<body>
+  <div class="container">
+    <h1>Topics & Tools — AI Orientation, Prompt Engineering, Embeddings, Vector DB</h1>
+    <div class="subtitle">Generated on 2025-11-07 09:58 · Exported as HTML</div>
+
+    <div class="card">
+      <div class="section-title pill">AI Orientation</div>
+      <ul>
+        <li>What is AI?</li>
+        <li>AI vs ML vs DL</li>
+        <li>Evolution of AI</li>
+        <li>Intro to Generative AI</li>
+        <li>Large Language Models (LLMs)</li>
+        <li>Ethical AI and responsible development</li>
+        <li>Claude 3 family</li>
+        <li>GPT-Series</li>
+        <li>Gemini Models</li>
+        <li>Open-source alternatives (Mistral, etc.)</li>
+        <li>ollama</li>
+        <li>Use cases for LLM</li>
+        <li>LLM best practices</li>
+        <li>Security considerations</li>
+        <li>Data fundamentals</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <div class="section-title pill">Prompt-Engineering</div>
+      <ul>
+        <li>Types of messages: System, User, Assistant</li>
+        <li>Zero-shot prompting</li>
+        <li>Few-shot prompting</li>
+        <li>Chain-of-Thought (CoT)</li>
+        <li>Constraints | LLM params</li>
+        <li>Instructions and guidelines</li>
+        <li>Fine-tuning and conditioning</li>
+        <li>Hallucinations</li>
+        <li>Responsible usage</li>
+        <li>Security</li>
+        <li>Prompt engineering review</li>
+        <li>Vector DB — Orientation</li>
+        <li>Vectors overview</li>
+        <li>Vector DB introduction</li>
+        <li>Traditional databases vs vector DBs</li>
+        <li>Vector database use cases</li>
+        <li>sqlite-vec</li>
+        <li>Vector similarity search</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <div class="section-title pill">Embeddings</div>
+      <ul>
+        <li>What are embeddings?</li>
+        <li>How embeddings work</li>
+        <li>Use cases of embeddings</li>
+        <li>Embeddings using Hugging Face</li>
+        <li>Chroma DB &ndash; setup, local vector DB, storing metadata</li>
+        <li>Vector search · Full-text search · Document storage</li>
+        <li>Metadata filtering · Multi-modal retrieval · CRUD with vector data</li>
+        <li>FAISS · Pinecone · Weaviate · Other vector DBs</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <div class="section-title pill">Vector DB — Database Management</div>
+      <ul>
+        <li>Index management</li>
+        <li>Collection</li>
+        <li>Partitioning vectors</li>
+        <li>Upsert</li>
+        <li>Vector partitioning using metadata</li>
+        <li>Distance metrics</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <div class="section-title pill">Vector DB — Semantic Search</div>
+      <ul>
+        <li>Semantic search</li>
+        <li>Data preprocessing &amp; preparation</li>
+        <li>Preparing for upsert</li>
+        <li>Vector query with semantic search</li>
+        <li>Named Entity Recognition (NER)</li>
+        <li>Vector embedding models</li>
+        <li>NER helper function</li>
+        <li>Vector embedding in batches</li>
+        <li>Metadata processing</li>
+        <li>Week 4 assignment (link)</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h2 class="section-title">Tools to Teach These Topics</h2>
+      <table>
+        <thead>
+          <tr>
+            <th style="width:22%">Topic Area</th>
+            <th style="width:44%">Primary Teaching Tools &amp; Platforms</th>
+            <th>Why These Tools</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>AI Orientation</td>
+            <td>PowerPoint/Google Slides, Whiteboard/Jamboard, VS Code + Markdown</td>
+            <td>Explain fundamentals, compare AI/ML/DL, showcase model families and ethics checklists.</td>
+          </tr>
+          <tr>
+            <td>Prompt-Engineering</td>
+            <td>ChatGPT / Claude / Gemini, Promptfoo, VS Code REST Client/Thunder Client, Jupyter/Colab</td>
+            <td>Live prompt demos, A/B testing of prompts, show message roles &amp; parameters.</td>
+          </tr>
+          <tr>
+            <td>LLM Ecosystem (open-source)</td>
+            <td>ollama, Text-Generation-WebUI (opt.), vLLM, Docker</td>
+            <td>Run local models (Mistral/Llama), demonstrate latency, context windows &amp; safety.</td>
+          </tr>
+          <tr>
+            <td>Embeddings (concepts &amp; coding)</td>
+            <td>Python, sentence-transformers, Hugging Face Hub, NumPy/Pandas, Matplotlib</td>
+            <td>Generate vectors, compute cosine similarity, visualize, batch &amp; normalize.</td>
+          </tr>
+          <tr>
+            <td>Vector DB — Chroma</td>
+            <td>ChromaDB (chromadb), FastAPI, SQLite/Postgres</td>
+            <td>Quick local store; teach collections, metadata filtering, CRUD.</td>
+          </tr>
+          <tr>
+            <td>Vector DB — FAISS</td>
+            <td>FAISS (CPU/GPU), SciPy, Annoy/HNSWlib</td>
+            <td>Index types (IVF, HNSW), recall vs speed trade-offs, PQ/OPQ.</td>
+          </tr>
+          <tr>
+            <td>Managed Vector DBs</td>
+            <td>Pinecone, Weaviate Cloud, Qdrant Cloud</td>
+            <td>Hands-on SaaS: namespaces, replication, filtering, monitoring dashboards.</td>
+          </tr>
+          <tr>
+            <td>DB Management (indexes, partitions, upserts)</td>
+            <td>Chroma/FAISS/Pinecone SDKs, Postman/Insomnia, Grafana/Prometheus (opt.)</td>
+            <td>Create &amp; monitor indexes, partitions, upserts, measure latency/throughput.</td>
+          </tr>
+          <tr>
+            <td>Semantic Search workflow</td>
+            <td>Python notebooks, ragas (eval), spaCy for NER, rank-bm25, FastAPI</td>
+            <td>Full pipeline: preprocessing → embedding → upsert → query → rerank → evaluate.</td>
+          </tr>
+          <tr>
+            <td>NER &amp; NLP utilities</td>
+            <td>spaCy, Hugging Face Transformers, Presidio (PII redaction)</td>
+            <td>Extract entities, clean text, demonstrate helper functions and privacy.</td>
+          </tr>
+          <tr>
+            <td>RAG demo (end-to-end)</td>
+            <td>LangChain / LlamaIndex, FastAPI/Flask, Streamlit/Gradio, Chroma/FAISS/Pinecone</td>
+            <td>Combine embeddings + vector DB + LLM; minimal QA app with evaluation.</td>
+          </tr>
+          <tr>
+            <td>Security &amp; Responsible AI</td>
+            <td>Model Cards, OWASP LLM Top 10, Azure/OpenAI safety docs, prompt-injection tests</td>
+            <td>Teach risks, red-teaming, guardrail design patterns.</td>
+          </tr>
+          <tr>
+            <td>Data Fundamentals &amp; Prep</td>
+            <td>Pandas, PyArrow, DuckDB, Apache Parquet, unstructured/pymupdf loaders</td>
+            <td>Chunking, token counting, metadata schema, efficient file formats.</td>
+          </tr>
+          <tr>
+            <td>Experiment Tracking</td>
+            <td>MLflow, Weights &amp; Biases</td>
+            <td>Track runs, parameters, models, retrieval metrics.</td>
+          </tr>
+          <tr>
+            <td>Deployment</td>
+            <td>Docker &amp; Compose, Render/Fly.io/Heroku, or Azure/AWS/GCP</td>
+            <td>Containerize vector service + API + UI for reproducible demos.</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="footer">Tip: Pair each section with a 10–15 minute live demo notebook and a small assignment (e.g., build a tiny RAG over 10 docs with Chroma).</div>
+    </div>
+  </div>
+</body>
+</html>

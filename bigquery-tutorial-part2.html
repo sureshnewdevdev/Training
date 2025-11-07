@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BigQuery & Data Management Tutorial - Part 2</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #ea4335, #fbbc05);
+            color: white;
+            padding: 30px 0;
+            text-align: center;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .content {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 25px;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        h2 {
+            color: #ea4335;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+        
+        h3 {
+            color: #fbbc05;
+            margin: 20px 0 10px;
+        }
+        
+        p {
+            margin-bottom: 15px;
+        }
+        
+        ul, ol {
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+        
+        li {
+            margin-bottom: 8px;
+        }
+        
+        .definition {
+            background-color: #f8f9fa;
+            border-left: 4px solid #ea4335;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 5px 5px 0;
+        }
+        
+        .example {
+            background-color: #fef7e0;
+            border-left: 4px solid #fbbc05;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 5px 5px 0;
+            font-family: monospace;
+            overflow-x: auto;
+        }
+        
+        .important {
+            background-color: #ffe8e6;
+            border-left: 4px solid #ea4335;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 5px 5px 0;
+        }
+        
+        .tip {
+            background-color: #fef7e0;
+            border-left: 4px solid #fbbc05;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 5px 5px 0;
+        }
+        
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+        
+        .btn {
+            background: #ea4335;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .btn:hover {
+            background: #d33426;
+        }
+        
+        .btn-prev {
+            background: #4285f4;
+        }
+        
+        .btn-prev:hover {
+            background: #3367d6;
+        }
+        
+        .topic-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .topic-item {
+            background: #fff0e6;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: 500;
+            border: 1px solid #ffd1b3;
+        }
+        
+        .topic-item.current {
+            background: #ea4335;
+            color: white;
+        }
+        
+        .code-block {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .sql-keyword {
+            color: #f92672;
+        }
+        
+        .sql-function {
+            color: #66d9ef;
+        }
+        
+        .sql-string {
+            color: #e6db74;
+        }
+        
+        .sql-comment {
+            color: #75715e;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        
+        th {
+            background-color: #f8f9fa;
+            font-weight: bold;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+        
+        @media (max-width: 768px) {
+            .topic-list {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>BigQuery & Data Management Tutorial</h1>
+            <p class="subtitle">Part 2: Tables, Queries & Advanced Techniques</p>
+        </header>
+        
+        <div class="content">
+            <div class="card">
+                <h2>Introduction to Part 2</h2>
+                <p>Welcome to the second part of our BigQuery tutorial. In this section, we'll dive deeper into practical aspects of working with BigQuery, including creating tables, writing queries, and advanced techniques like denormalization.</p>
+                
+                <h3>Topics Covered in Part 2:</h3>
+                <div class="topic-list">
+                    <div class="topic-item current">Create and Use Tables</div>
+                    <div class="topic-item current">BigQuery Queries</div>
+                    <div class="topic-item current">Advanced Queries</div>
+                    <div class="topic-item current">Denormalization</div>
+                </div>
+                
+                <div class="tip">
+                    <strong>Prerequisite:</strong> Make sure you've completed Part 1 or have a basic understanding of BigQuery datasets and data concepts.
+                </div>
+            </div>
+            
+            <div class="card">
+                <h2>Create and Use Tables in BigQuery</h2>
+                
+                <div class="definition">
+                    <strong>Definition:</strong> Tables in BigQuery are structured collections of data organized in rows and columns. Each table has a schema that defines the columns, data types, and descriptions.
+                </div>
+                
+                <h3>Table Creation Methods:</h3>
+                <ul>
+                    <li><strong>CREATE TABLE Statement:</strong> Using SQL DDL commands</li>
+                    <li><strong>BigQuery UI:</strong> Using the web interface</li>
+                    <li><strong>bq Command-line Tool:</strong> Using the bq mk command</li>
+                    <li><strong>Client Libraries:</strong> Using Python, Java, etc.</li>
+                    <li><strong>Loading Data:</strong> Creating tables by loading data files</li>
+                </ul>
+                
+                <h3>Creating a Table with SQL:</h3>
+                <div class="code-block">
+                    <span class="sql-keyword">CREATE TABLE</span> <span class="sql-function">`my-project.mydataset.customers`</span> (<br>
+                    &nbsp;&nbsp;customer_id <span class="sql-keyword">INT64</span> <span class="sql-keyword">NOT NULL</span>,<br>
+                    &nbsp;&nbsp;customer_name <span class="sql-keyword">STRING</span>,<br>
+                    &nbsp;&nbsp;email <span class="sql-keyword">STRING</span>,<br>
+                    &nbsp;&nbsp;signup_date <span class="sql-keyword">DATE</span>,<br>
+                    &nbsp;&nbsp;total_purchases <span class="sql-keyword">NUMERIC</span><br>
+                    );
+                </div>
+                
+                <h3>Creating a Table from Query Results:</h3>
+                <div class="code-block">
+                    <span class="sql-keyword">CREATE TABLE</span> <span class="sql-function">`my-project.mydataset.customer_summary`</span><br>
+                    <span class="sql-keyword">AS</span><br>
+                    <span class="sql-keyword">SELECT</span><br>
+                    &nbsp;&nbsp;customer_id,<br>
+                    &nbsp;&nbsp;customer_name,<br>
+                    &nbsp;&nbsp;<span class="sql-function">COUNT</span>(order_id) <span class="sql-keyword">AS</span> order_count,<br>
+                    &nbsp;&nbsp;<span class="sql-function">SUM</span>(order_amount) <span class="sql-keyword">AS</span> total_spent<br>
+                    <span class="sql-keyword">FROM</span> <span class="sql-function">`my-project.mydataset.orders`</span><br>
+                    <span class="sql-keyword">GROUP BY</span> customer_id, customer_name;
+                </div>
+                
+                <h3>Loading Data into Tables:</h3>
+                <div class="example">
+                    <strong>From Google Cloud Storage:</strong><br>
+                    <div class="code-block">
+                        <span class="sql-keyword">LOAD DATA</span> <span class="sql-keyword">INTO</span> <span class="sql-function">`my-project.mydataset.sales`</span><br>
+                        <span class="sql-keyword">FROM FILES</span> (<br>
+                        &nbsp;&nbsp;format = <span class="sql-string">'CSV'</span>,<br>
+                        &nbsp;&nbsp;uris = [<span class="sql-string">'gs://my-bucket/sales-data/*.csv'</span>]<br>
+                        );
+                    </div>
+                </div>
+                
+                <h3>Table Management Operations:</h3>
+                <ul>
+                    <li><strong>ALTER TABLE:</strong> Modify table schema</li>
+                    <li><strong>DROP TABLE:</strong> Delete a table</li>
+                    <li><strong>COPY TABLE:</strong> Create a copy of a table</li>
+                    <li><strong>TRUNCATE TABLE:</strong> Remove all rows but keep table structure</li>
+                </ul>
+                
+                <div class="important">
+                    <strong>Important:</strong> BigQuery uses a columnar storage format which is optimized for analytical queries. This is different from traditional row-based databases.
+                </div>
+            </div>
+            
+            <div class="card">
+                <h2>BigQuery Queries</h2>
+                
+                <div class="definition">
+                    <strong>Definition:</strong> BigQuery queries are SQL statements used to retrieve, manipulate, and analyze data stored in BigQuery tables. BigQuery uses standard SQL syntax with some extensions.
+                </div>
+                
+                <h3>Basic Query Structure:</h3>
+                <div class="code-block">
+                    <span class="sql-keyword">SELECT</span> column1, column2, ...<br>
+                    <span class="sql-keyword">FROM</span> `project.dataset.table`<br>
+                    <span class="sql-keyword">WHERE</span> condition<br>
+                    <span class="sql-keyword">GROUP BY</span> column1, column2, ...<br>
+                    <span class="sql-keyword">HAVING</span> condition<br>
+                    <span class="sql-keyword">ORDER BY</span> column1 [<span class="sql-keyword">ASC</span>|<span class="sql-keyword">DESC</span>]<br>
+                    <span class="sql-keyword">LIMIT</span> number;
+                </div>
+                
+                <h3>Common Query Examples:</h3>
+                
+                <h4>Simple SELECT with WHERE:</h4>
+                <div class="code-block">
+                    <span class="sql-keyword">SELECT</span> customer_id, customer_name, email<br>
+                    <span class="sql-keyword">FROM</span> <span class="sql-function">`my-project.mydataset.customers`</span><br>
+                    <span class="sql-keyword">WHERE</span> signup_date >= <span class="sql-string">'2023-01-01'</span><br>
+                    <span class="sql-keyword">ORDER BY</span> signup_date <span class="sql-keyword">DESC</span>;
+                </div>
+                
+                <h4>Aggregation with GROUP BY:</h4>
+                <div class="code-block">
+                    <span class="sql-keyword">SELECT</span><br>
+                    &nbsp;&nbsp;customer_id,<br>
+                    &nbsp;&nbsp;<span class="sql-function">COUNT</span>(*) <span class="sql-keyword">AS</span> order_count,<br>
+                    &nbsp;&nbsp;<span class="sql-function">SUM</span>(order_amount) <span class="sql-keyword">AS</span> total_amount,<br>
+                    &nbsp;&nbsp;<span class="sql-function">AVG</span>(order_amount) <span class="sql-keyword">AS</span> avg_order_value<br>
+                    <span class="sql-keyword">FROM</span> <span class="sql-function">`my-project.mydataset.orders`</span><br>
+                    <span class="sql-keyword">GROUP BY</span> customer_id<br>
+                    <span class="sql-keyword">HAVING</span> <span class="sql-function">COUNT</span>(*) > 5<br>
+                    <span class="sql-keyword">ORDER BY</span> total_amount <span class="sql-keyword">DESC</span>;
+                </div>
+                
+                <h4>JOIN Operations:</h4>
+                <div class="code-block">
+                    <span class="sql-keyword">SELECT</span><br>
+                    &nbsp;&nbsp;c.customer_name,<br>
+                    &nbsp;&nbsp;o.order_id,<br>
+                    &nbsp;&nbsp;o.order_date,<br>
+                    &nbsp;&nbsp;o.order_amount<br>
+                    <span class="sql-keyword">FROM</span> <span class="sql-function">`my-project.mydataset.customers`</span> <span class="sql-keyword">AS</span> c<br>
+                    <span class="sql-keyword">INNER JOIN</span> <span class="sql-function">`my-project.mydataset.orders`</span> <span class="sql-keyword">AS</span> o<br>
+                    &nbsp;&nbsp;<span class="sql-keyword">ON</span> c.customer_id = o.customer_id<br>
+                    <span class="sql-keyword">WHERE</span> o.order_date >= <span class="sql-string">'2023-01-01'</span>;
+                </div>
+                
+                <h3>Query Best Practices:</h3>
+                <ul>
+                    <li>Use backticks for project, dataset, and table names</li>
+                    <li>Filter early with WHERE to reduce data processed</li>
+                    <li>Use APPROX_COUNT_DISTINCT for large datasets when exact count isn't critical</li>
+                    <li>Avoid SELECT * - specify only needed columns</li>
+                    <li>Use partitioned tables for time-series data</li>
+                </ul>
+                
+                <div class="tip">
+                    <strong>Tip:</strong> Always preview your query cost before running large queries. Use the "Validator" in the BigQuery UI to estimate the bytes processed.
+                </div>
+            </div>
+            
+            <div class="card">
+                <h2>Advanced Queries in BigQuery</h2>
+                
+                <div class="definition">
+                    <strong>Definition:</strong> Advanced queries in BigQuery include complex operations like window functions, nested and repeated fields, geographic functions, and machine learning integrations.
+                </div>
+                
+                <h3>Window Functions:</h3>
+                <div class="code-block">
+                    <span class="sql-comment">-- Calculate running totals and rankings</span><br>
+                    <span class="sql-keyword">SELECT</span><br>
+                    &nbsp;&nbsp;customer_id,<br>
+                    &nbsp;&nbsp;order_date,<br>
+                    &nbsp;&nbsp;order_amount,<br>
+                    &nbsp;&nbsp;<span class="sql-function">SUM</span>(order_amount) <span class="sql-keyword">OVER</span> (<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span class="sql-keyword">PARTITION BY</span> customer_id<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span class="sql-keyword">ORDER BY</span> order_date<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span class="sql-keyword">ROWS UNBOUNDED PRECEDING</span><br>
+                    &nbsp;&nbsp;) <span class="sql-keyword">AS</span> running_total,<br>
+                    &nbsp;&nbsp;<span class="sql-function">RANK</span>() <span class="sql-keyword">OVER</span> (<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span class="sql-keyword">PARTITION BY</span> customer_id<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span class="sql-keyword">ORDER BY</span> order_amount <span class="sql-keyword">DESC</span><br>
+                    &nbsp;&nbsp;) <span class="sql-keyword">AS</span> order_rank<br>
+                    <span class="sql-keyword">FROM</span> <span class="sql-function">`my-project.mydataset.orders`</span><br>
+                    <span class="sql-keyword">ORDER BY</span> customer_id, order_date;
+                </div>
+                
+                <h3>Working with Arrays and Structs:</h3>
+                <div class="code-block">
+                    <span class="sql-comment">-- Querying nested and repeated fields</span><br>
+                    <span class="sql-keyword">WITH</span> orders <span class="sql-keyword">AS</span> (<br>
+                    &nbsp;&nbsp;<span class="sql-keyword">SELECT</span><br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;123 <span class="sql-keyword">AS</span> order_id,<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;[<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="sql-keyword">STRUCT</span>(<span class="sql-string">'product1'</span> <span class="sql-keyword">AS</span> product, 2 <span class="sql-keyword">AS</span> quantity, 25.99 <span class="sql-keyword">AS</span> price),<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="sql-keyword">STRUCT</span>(<span class="sql-string">'product2'</span> <span class="sql-keyword">AS</span> product, 1 <span class="sql-keyword">AS</span> quantity, 15.50 <span class="sql-keyword">AS</span> price)<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;] <span class="sql-keyword">AS</span> items<br>
+                    )<br>
+                    <span class="sql-keyword">SELECT</span><br>
+                    &nbsp;&nbsp;order_id,<br>
+                    &nbsp;&nbsp;item.product,<br>
+                    &nbsp;&nbsp;item.quantity,<br>
+                    &nbsp;&nbsp;item.price,<br>
+                    &nbsp;&nbsp;item.quantity * item.price <span class="sql-keyword">AS</span> line_total<br>
+                    <span class="sql-keyword">FROM</span> orders,<br>
+                    &nbsp;&nbsp;<span class="sql-keyword">UNNEST</span>(items) <span class="sql-keyword">AS</span> item;
+                </div>
+                
+                <h3>Common Table Expressions (CTEs):</h3>
+                <div class="code-block">
+                    <span class="sql-comment">-- Using CTEs for complex queries</span><br>
+                    <span class="sql-keyword">WITH</span> customer_stats <span class="sql-keyword">AS</span> (<br>
+                    &nbsp;&nbsp;<span class="sql-keyword">SELECT</span><br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;customer_id,<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span class="sql-function">COUNT</span>(*) <span class="sql-keyword">AS</span> order_count,<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span class="sql-function">SUM</span>(order_amount) <span class="sql-keyword">AS</span> total_spent<br>
+                    &nbsp;&nbsp;<span class="sql-keyword">FROM</span> <span class="sql-function">`my-project.mydataset.orders`</span><br>
+                    &nbsp;&nbsp;<span class="sql-keyword">GROUP BY</span> customer_id<br>
+                    ),<br>
+                    customer_segments <span class="sql-keyword">AS</span> (<br>
+                    &nbsp;&nbsp;<span class="sql-keyword">SELECT</span><br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;customer_id,<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span class="sql-keyword">CASE</span><br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="sql-keyword">WHEN</span> total_spent > 1000 <span class="sql-keyword">THEN</span> <span class="sql-string">'VIP'</span><br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="sql-keyword">WHEN</span> total_spent > 500 <span class="sql-keyword">THEN</span> <span class="sql-string">'Regular'</span><br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="sql-keyword">ELSE</span> <span class="sql-string">'Occasional'</span><br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span class="sql-keyword">END</span> <span class="sql-keyword">AS</span> segment<br>
+                    &nbsp;&nbsp;<span class="sql-keyword">FROM</span> customer_stats<br>
+                    )<br>
+                    <span class="sql-keyword">SELECT</span><br>
+                    &nbsp;&nbsp;segment,<br>
+                    &nbsp;&nbsp;<span class="sql-function">COUNT</span>(*) <span class="sql-keyword">AS</span> customer_count,<br>
+                    &nbsp;&nbsp;<span class="sql-function">AVG</span>(cs.total_spent) <span class="sql-keyword">AS</span> avg_spent<br>
+                    <span class="sql-keyword">FROM</span> customer_segments cs<br>
+                    &nbsp;&nbsp;<span class="sql-keyword">JOIN</span> customer_stats <span class="sql-keyword">USING</span> (customer_id)<br>
+                    <span class="sql-keyword">GROUP BY</span> segment<br>
+                    <span class="sql-keyword">ORDER BY</span> avg_spent <span class="sql-keyword">DESC</span>;
+                </div>
+                
+                <h3>BigQuery ML (Machine Learning):</h3>
+                <div class="code-block">
+                    <span class="sql-comment">-- Create a linear regression model</span><br>
+                    <span class="sql-keyword">CREATE OR REPLACE MODEL</span> <span class="sql-function">`my-project.mydataset.sales_forecast`</span><br>
+                    <span class="sql-keyword">OPTIONS</span>(model_type=<span class="sql-string">'linear_reg'</span>) <span class="sql-keyword">AS</span><br>
+                    <span class="sql-keyword">SELECT</span><br>
+                    &nbsp;&nbsp;time_column,<br>
+                    &nbsp;&nbsp;sales_amount <span class="sql-keyword">AS</span> label<br>
+                    <span class="sql-keyword">FROM</span> <span class="sql-function">`my-project.mydataset.historical_sales`</span>;
+                </div>
+                
+                <div class="important">
+                    <strong>Important:</strong> Window functions in BigQuery are powerful but can be expensive. Use them judiciously and always test with sample data first.
+                </div>
+            </div>
+            
+            <div class="card">
+                <h2>Denormalization in BigQuery</h2>
+                
+                <div class="definition">
+                    <strong>Definition:</strong> Denormalization is the process of combining normalized tables into a single table to reduce the need for JOIN operations and improve query performance, especially in analytical databases like BigQuery.
+                </div>
+                
+                <h3>Normalized vs Denormalized Data:</h3>
+                <table>
+                    <tr>
+                        <th>Aspect</th>
+                        <th>Normalized</th>
+                        <th>Denormalized</th>
+                    </tr>
+                    <tr>
+                        <td>Structure</td>
+                        <td>Multiple related tables</td>
+                        <td>Fewer, wider tables</td>
+                    </tr>
+                    <tr>
+                        <td>Data Redundancy</td>
+                        <td>Minimal</td>
+                        <td>High</td>
+                    </tr>
+                    <tr>
+                        <td>JOIN Operations</td>
+                        <td>Frequent</td>
+                        <td>Rare</td>
+                    </tr>
+                    <tr>
+                        <td>Query Performance</td>
+                        <td>Slower for analytics</td>
+                        <td>Faster for analytics</td>
+                    </tr>
+                    <tr>
+                        <td>Storage</td>
+                        <td>Less storage required</td>
+                        <td>More storage required</td>
+                    </tr>
+                    <tr>
+                        <td>Data Integrity</td>
+                        <td>High (through constraints)</td>
+                        <td>Lower (application-managed)</td>
+                    </tr>
+                </table>
+                
+                <h3>When to Denormalize in BigQuery:</h3>
+                <ul>
+                    <li>When JOIN operations are becoming performance bottlenecks</li>
+                    <li>For frequently accessed reporting tables</li>
+                    <li>When working with nested and repeated data structures</li>
+                    <li>For real-time analytics requirements</li>
+                    <li>When storage cost is less concern than query performance</li>
+                </ul>
+                
+                <h3>Denormalization Techniques:</h3>
+                
+                <h4>1. Flattening Related Tables:</h4>
+                <div class="code-block">
+                    <span class="sql-comment">-- Instead of joining customers and orders...</span><br>
+                    <span class="sql-keyword">CREATE TABLE</span> <span class="sql-function">`my-project.mydataset.denormalized_orders`</span> <span class="sql-keyword">AS</span><br>
+                    <span class="sql-keyword">SELECT</span><br>
+                    &nbsp;&nbsp;o.order_id,<br>
+                    &nbsp;&nbsp;o.order_date,<br>
+                    &nbsp;&nbsp;o.order_amount,<br>
+                    &nbsp;&nbsp;c.customer_name,<br>
+                    &nbsp;&nbsp;c.email,<br>
+                    &nbsp;&nbsp;c.phone,<br>
+                    &nbsp;&nbsp;c.address<br>
+                    <span class="sql-keyword">FROM</span> <span class="sql-function">`my-project.mydataset.orders`</span> o<br>
+                    <span class="sql-keyword">JOIN</span> <span class="sql-function">`my-project.mydataset.customers`</span> c<br>
+                    &nbsp;&nbsp;<span class="sql-keyword">ON</span> o.customer_id = c.customer_id;
+                </div>
+                
+                <h4>2. Using Nested and Repeated Fields:</h4>
+                <div class="code-block">
+                    <span class="sql-comment">-- Creating a table with nested order items</span><br>
+                    <span class="sql-keyword">CREATE TABLE</span> <span class="sql-function">`my-project.mydataset.orders_with_items`</span> <span class="sql-keyword">AS</span><br>
+                    <span class="sql-keyword">SELECT</span><br>
+                    &nbsp;&nbsp;o.order_id,<br>
+                    &nbsp;&nbsp;o.order_date,<br>
+                    &nbsp;&nbsp;o.customer_id,<br>
+                    &nbsp;&nbsp;<span class="sql-function">ARRAY_AGG</span>(<span class="sql-keyword">STRUCT</span>(<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;i.product_id,<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;i.product_name,<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;i.quantity,<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;i.unit_price<br>
+                    &nbsp;&nbsp;)) <span class="sql-keyword">AS</span> items<br>
+                    <span class="sql-keyword">FROM</span> <span class="sql-function">`my-project.mydataset.orders`</span> o<br>
+                    <span class="sql-keyword">JOIN</span> <span class="sql-function">`my-project.mydataset.order_items`</span> i<br>
+                    &nbsp;&nbsp;<span class="sql-keyword">ON</span> o.order_id = i.order_id<br>
+                    <span class="sql-keyword">GROUP BY</span> o.order_id, o.order_date, o.customer_id;
+                </div>
+                
+                <h4>3. Pre-aggregating Data:</h4>
+                <div class="code-block">
+                    <span class="sql-comment">-- Creating daily sales summary</span><br>
+                    <span class="sql-keyword">CREATE TABLE</span> <span class="sql-function">`my-project.mydataset.daily_sales`</span> <span class="sql-keyword">AS</span><br>
+                    <span class="sql-keyword">SELECT</span><br>
+                    &nbsp;&nbsp;<span class="sql-function">DATE</span>(order_date) <span class="sql-keyword">AS</span> sales_date,<br>
+                    &nbsp;&nbsp;customer_segment,<br>
+                    &nbsp;&nbsp;product_category,<br>
+                    &nbsp;&nbsp;<span class="sql-function">COUNT</span>(order_id) <span class="sql-keyword">AS</span> order_count,<br>
+                    &nbsp;&nbsp;<span class="sql-function">SUM</span>(order_amount) <span class="sql-keyword">AS</span> total_sales,<br>
+                    &nbsp;&nbsp;<span class="sql-function">AVG</span>(order_amount) <span class="sql-keyword">AS</span> avg_order_value<br>
+                    <span class="sql-keyword">FROM</span> <span class="sql-function">`my-project.mydataset.orders`</span><br>
+                    <span class="sql-keyword">GROUP BY</span> sales_date, customer_segment, product_category;
+                </div>
+                
+                <h3>Best Practices for Denormalization in BigQuery:</h3>
+                <ul>
+                    <li>Use nested and repeated fields for one-to-many relationships</li>
+                    <li>Consider partitioning denormalized tables by date</li>
+                    <li>Cluster denormalized tables by frequently filtered columns</li>
+                    <li>Balance query performance gains against storage costs</li>
+                    <li>Document the denormalization logic for maintenance</li>
+                    <li>Set up automated processes to refresh denormalized tables</li>
+                </ul>
+                
+                <div class="tip">
+                    <strong>Tip:</strong> BigQuery's columnar storage and nested/repeated fields make it particularly well-suited for denormalized data structures. Leverage these features for optimal performance.
+                </div>
+                
+                <div class="important">
+                    <strong>Important:</strong> While denormalization improves read performance, it can make updates more complex. Consider using materialized views or scheduled queries to maintain denormalized tables.
+                </div>
+            </div>
+            
+            <div class="card">
+                <h2>Conclusion</h2>
+                <p>Congratulations! You've completed both parts of our comprehensive BigQuery and Data Management tutorial. You now have a solid understanding of:</p>
+                
+                <ul>
+                    <li>Data storage architectures (ODS, Data Marts)</li>
+                    <li>Data preparation techniques (Data Cleansing)</li>
+                    <li>BigQuery fundamentals and architecture</li>
+                    <li>Creating and managing datasets and tables</li>
+                    <li>Writing basic and advanced queries</li>
+                    <li>Performance optimization through denormalization</li>
+                </ul>
+                
+                <h3>Next Steps:</h3>
+                <ol>
+                    <li>Practice with real datasets in your BigQuery sandbox</li>
+                    <li>Explore BigQuery's integration with other Google Cloud services</li>
+                    <li>Learn about BigQuery's security and access control features</li>
+                    <li>Experiment with BigQuery ML for machine learning projects</li>
+                    <li>Study performance tuning and cost optimization techniques</li>
+                </ol>
+                
+                <div class="tip">
+                    <strong>Final Tip:</strong> The best way to master BigQuery is through hands-on practice. Start with small projects and gradually work your way up to more complex data analytics scenarios.
+                </div>
+            </div>
+        </div>
+        
+        <div class="nav-buttons">
+            <a href="bigquery-tutorial-part1.html" class="btn btn-prev">Previous: Part 1 - Foundations</a>
+            <a href="#" class="btn">Back to Top</a>
+        </div>
+    </div>
+</body>
+</html>
